@@ -1,12 +1,15 @@
 package projetojava.grupo4.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import projetojava.grupo4.model.Cachorro;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projetojava.grupo4.service.CachorroService;
+import projetojava.grupo4.service.RacasService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class CachorroController {
 
     private final CachorroService cachorroService;
+
+    @Autowired
+    private RacasService racasService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Cachorro> buscarPorId(@PathVariable long id){
@@ -33,6 +39,11 @@ public class CachorroController {
     public ResponseEntity<Cachorro> alterar(@RequestBody Cachorro cachorro){
         Cachorro response = cachorroService.alterar(cachorro);
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/racas")
+    public List<List<String>> racas() {
+        return racasService.listarRacas();
     }
 
 }
